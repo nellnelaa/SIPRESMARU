@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model students {
+  id                  BigInt                @id @default(autoincrement())
+  NIS                 String?               @unique @db.VarChar(255)
+  full_name           String?               @db.VarChar(255)
+  class_name          class_enum?
+  graduation_year     Int?
+  achievements        achievements[]
+  social_media_shares social_media_shares[]
+}
+
+model achievements {
+  id                  BigInt                @id @default(autoincrement())
+  student_id          BigInt
+  category_type       category_enum
+  title               String?               @db.VarChar(255)
+  organizer_name      String?               @db.VarChar(255)
+  image       String?
+  date                DateTime?             @db.Timestamp(6)
+  points              Int?
+  grade               grade_enum?
+  created_at          DateTime?             @default(now()) @db.Timestamp(6)
+  updated_at          DateTime?             @default(now()) @db.Timestamp(6)
+  students            students              @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  social_media_shares social_media_shares[]
+  tags                tags[]
+}
+
+model users {
+  id              BigInt  @id(map: "users_pk") @default(autoincrement())
+  name            String  @db.VarChar
+  email           String  @unique(map: "users_email_idx") @db.VarChar
+  password        String  @db.VarChar
+  profile_picture String? @db.VarChar
+  role_id         Int     @default(2)
+}
+
+model social_media_shares {
+  id             BigInt             @id @default(autoincrement())
+  student_id     BigInt
+  achievement_id BigInt
+  platform       social_media_enum?
+  share_link     String?            @db.VarChar(255)
+  shared_at      DateTime?          @default(now()) @db.Timestamp(6)
+  achievements   achievements       @relation(fields: [achievement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  students       students           @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model tags {
+  id             BigInt       @id @default(autoincrement())
+  achievement_id     BigInt
+  tag_details_id BigInt
+  achievements   achievements @relation(fields: [achievement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tag_details    tag_details  @relation(fields: [tag_details_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model tag_details {
+  id   BigInt  @id @default(autoincrement())
+  tag  String? @db.VarChar(255)
+  tags tags[]
+}
+
+model report {
+  id      BigInt @id @default(autoincrement())
+  name    String @db.VarChar(255)
+  email   String @db.VarChar(255)
+  text    String @db.VarChar(255)
+}
+
+enum class_enum {
+  grade_10
+  grade_11
+  grade_12
+}
+
+enum grade_enum {
+  A
+  B
+  C
+  D
+}
+
+enum social_media_enum {
+  Instagram
+  Twitter
+  Facebook
+}
+
+enum admin_role_enum {
+  Staff
+  OSIS
+}
+
+enum category_enum {
+  Academic
+  Non_Academic
+}
