@@ -64,7 +64,6 @@ export const createStudent = async (request) => {
   return result?.data;
 };
 
-
 export const updateStudent = async (id, request) => {
   const token = localStorage.getItem("token");
 
@@ -78,7 +77,7 @@ export const updateStudent = async (id, request) => {
     headers: {
       authorization: `Bearer ${token}`,
     },
-    method: "PUT", // atau "PATCH" sesuai backend
+    method: "PUT",
     body: formData,
   });
 

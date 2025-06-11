@@ -73,6 +73,7 @@ model report {
   name    String @db.VarChar(255)
   email   String @db.VarChar(255)
   text    String @db.VarChar(255)
+  created_at  DateTime?     @default(now()) @db.Timestamp(6)
 }
 
 enum class_enum {

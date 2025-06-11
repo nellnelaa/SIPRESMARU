@@ -13,8 +13,9 @@ import AdminSidebar from "../components/AdminSidebar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "../components/ScrollToTop";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import NotFound from "../components/NotFound";
 
-// Context untuk sharing sidebar state
 const SidebarContext = createContext();
 
 export const useSidebar = () => {
@@ -25,7 +26,6 @@ export const useSidebar = () => {
   return context;
 };
 
-// Wrapper component untuk admin layout
 function AdminLayoutWrapper() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -58,11 +58,12 @@ function AdminLayoutWrapper() {
 }
 
 export const Route = createRootRoute({
+  notFoundComponent: NotFound,
   component: RootComponent,
 });
 
 function RootComponent() {
-  console.log("=== ROOT COMPONENT RENDERED ===");
+  //console.log("=== ROOT COMPONENT RENDERED ===");
   const { location } = useRouterState();
   const navigate = useNavigate();
   const currentPath = location.pathname;
@@ -71,7 +72,6 @@ function RootComponent() {
   const isAdminRoute = currentPath.startsWith("/admin");
   const isUserAdmin = user?.role_id === 1;
 
-  // Redirect logic for unauthorized admin access
   useEffect(() => {
     if (isAdminRoute && !loading && token) {
       if (!isUserAdmin) {
@@ -81,7 +81,6 @@ function RootComponent() {
     }
   }, [isAdminRoute, loading, token, isUserAdmin, navigate]);
 
-  // Loading state for admin routes
   if (loading && isAdminRoute) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -93,7 +92,6 @@ function RootComponent() {
     );
   }
 
-  // Access denied for non-admin users trying to access admin routes
   if (isAdminRoute && !isUserAdmin && !loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">

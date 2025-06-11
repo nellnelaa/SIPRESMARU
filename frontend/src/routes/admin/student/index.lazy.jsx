@@ -1,43 +1,46 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import React, { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Eye, Search } from "lucide-react";
-import { useSelector } from "react-redux";
-import { getStudents } from "../../../service/student";
-import { useQuery } from "@tanstack/react-query";
+import { Plus, Edit, Trash2, Search } from "lucide-react";
+//import { useSelector } from "react-redux";
+import { deleteStudent, getStudents } from "../../../service/student";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import ConfirmationDialog from "../../../components/CancelConfirmation";
 
 export const Route = createLazyFileRoute("/admin/student/")({
   component: StudentsPage,
 });
 
 function StudentsPage() {
-  const { token } = useSelector((state) => state.auth);
+  //const { token } = useSelector((state) => state.auth);
+  const queryClient = useQueryClient();
 
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [studentsPerPage] = useState(10);
 
+  const { mutate: deleting, isPending: isDeleteProcessing } = useMutation({
+    mutationFn: (studentId) => deleteStudent(studentId),
+    onSuccess: () => {
+      toast.success("Data berhasil dihapus.");
+      queryClient.invalidateQueries({ queryKey: ["students"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const { data, isSuccess, isPending } = useQuery({
     queryKey: ["students"],
     queryFn: () => getStudents(),
-    enabled: !!token,
   });
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       setStudents(data);
     }
   }, [data, isSuccess]);
-
-  if (!token) {
-    return (
-      <div className="mt-10 text-center">
-        <h1 className="text-2xl font-semibold text-red-600">
-          Please login first to get student data!
-        </h1>
-      </div>
-    );
-  }
 
   if (isPending) {
     return (
@@ -51,14 +54,13 @@ function StudentsPage() {
     );
   }
 
-  const handleDelete = (id, full_name) => {
-    if (
-      window.confirm(
-        `Apakah Anda yakin ingin menghapus data siswa ${full_name}?`
-      )
-    ) {
-      setStudents(students.filter((student) => student.id !== id));
-    }
+  const handleDelete = (studentId, studentName) => {
+    ConfirmationDialog.showWithAction({
+      title: "Konfirmasi Hapus",
+      message: `Apakah Anda yakin ingin menghapus data siswa "${studentName}"?`,
+      onConfirm: () => deleting(studentId),
+      confirmLabel: "Ya, Hapus",
+    });
   };
 
   const filteredStudents = students.filter(
@@ -80,14 +82,14 @@ function StudentsPage() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="min-h-screen bg-gray-50 ">
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
             Data Siswa
           </h1>
-          <p className="text-gray-600">Kelola data siswa sekolah</p>
+          <p className="text-gray-600">Kelola data siswa</p>
         </div>
 
         {/* Actions Bar */}
@@ -122,7 +124,7 @@ function StudentsPage() {
         {/* Table */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-[500px] w-full divide-y divide-gray-200">
+            <table className="min-w-full w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -169,13 +171,6 @@ function StudentsPage() {
                       <td className="px-4 sm:px-6 py-4 text-sm font-medium">
                         <div className="flex items-center space-x-2">
                           <a
-                            href={`/admin/student/${student.id}`}
-                            className="inline-flex items-center p-1.5 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded transition-colors duration-200"
-                            title="Lihat Detail"
-                          >
-                            <Eye className="h-4 w-4" />
-                          </a>
-                          <a
                             href={`/admin/student/edit/${student.id}`}
                             className="inline-flex items-center p-1.5 text-green-600 hover:text-green-900 hover:bg-green-50 rounded transition-colors duration-200"
                             title="Edit"
@@ -186,7 +181,8 @@ function StudentsPage() {
                             onClick={() =>
                               handleDelete(student.id, student.full_name)
                             }
-                            className="inline-flex items-center p-1.5 text-red-600 hover:text-red-900 hover:bg-red-50 rounded transition-colors duration-200"
+                            disabled={isDeleteProcessing}
+                            className="inline-flex items-center p-1.5 text-red-600 hover:text-red-900 hover:bg-red-50 rounded transition-colors duration-200 disabled:opacity-50"
                             title="Hapus"
                           >
                             <Trash2 className="h-4 w-4" />

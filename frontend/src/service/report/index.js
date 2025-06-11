@@ -1,37 +1,19 @@
-export const getAchievements = async ({
-  full_name,
-  grade,
-  tag,
-  title,
-  category_type,
-  organizer_name,
-  search,
-}) => {
+export const getReports = async ( name, email, text, search) => {
   let params = {};
   if (search) {
     params.search = search;
   }
-  if (full_name) {
-    params.full_name = full_name;
+  if (name) {
+    params.name = name;
   }
-  if (grade) {
-    params.grade = grade;
+  if (email) {
+    params.email = email;
   }
-  if (tag) {
-    params.tag = tag;
-  }
-  if (title) {
-    params.title = title;
-  }
-  if (category_type) {
-    params.category_type = category_type;
-  }
-  if (organizer_name) {
-    params.organizer_name = organizer_name;
+  if (text) {
+    params.text = text;
   }
   let url =
-    `${import.meta.env.VITE_API_URL}/achievements?` +
-    new URLSearchParams(params).toString();
+    `${import.meta.env.VITE_API_URL}/reports` + new URLSearchParams(params);
 
   const response = await fetch(url, {
     method: "GET",
@@ -44,8 +26,8 @@ export const getAchievements = async ({
   return result?.data;
 };
 
-export const getDetailAchievement = async (id) => {
-  let url = `${import.meta.env.VITE_API_URL}/students/${id}`;
+export const getReportById = async (id) => {
+  let url = `${import.meta.env.VITE_API_URL}/reports/${id}`;
 
   const response = await fetch(url, {
     method: "GET",
@@ -78,20 +60,16 @@ export const createReport = async (request) => {
   return result?.data;
 };
 
-export const updateStudent = async (id, request) => {
+export const updateReport = async (id, request) => {
   const token = localStorage.getItem("token");
 
   const formData = new FormData();
   formData.append("name", request.name);
-  formData.append("nick_name", request.nickName);
-  formData.append("class_id", request.classId);
-  formData.append("university_id", request.universityId);
-  if (request.profilePicture) {
-    formData.append("profile_picture", request.profilePicture);
-  }
+  formData.append("email", request.email);
+  formData.append("text", request.text);
 
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/students/${id}`,
+    `${import.meta.env.VITE_API_URL}/reports/${id}`,
     {
       headers: {
         authorization: `Bearer ${token}`,
@@ -101,7 +79,6 @@ export const updateStudent = async (id, request) => {
     }
   );
 
-  // get the data if fetching succeed!
   const result = await response.json();
   if (!result?.success) {
     throw new Error(result?.message);
@@ -110,10 +87,10 @@ export const updateStudent = async (id, request) => {
   return result?.data;
 };
 
-export const deleteStudent = async (id) => {
+export const deleteReport = async (id) => {
   const token = localStorage.getItem("token");
 
-  let url = `${import.meta.env.VITE_API_URL}/students/${id}`;
+  let url = `${import.meta.env.VITE_API_URL}/reports/${id}`;
 
   const response = await fetch(url, {
     headers: {
@@ -130,3 +107,86 @@ export const deleteStudent = async (id) => {
 
   return result?.data;
 };
+
+
+// export const getReports = async () => {
+//   const response = await fetch(`${import.meta.env.VITE_API_URL}/reports`, {
+//     method: "GET",
+//   });
+
+//   const result = await response.json();
+//   if (!result?.success) {
+//     throw new Error(result?.message);
+//   }
+//   return result?.data;
+// };
+
+// export const getDetailReport = async (id) => {
+//   const response = await fetch(`${import.meta.env.VITE_API_URL}/reports/${id}`, {
+//     method: "GET",
+//   });
+
+//   const result = await response.json();
+//   if (!result?.success) {
+//     throw new Error(result?.message);
+//   }
+//   return result?.data;
+// };
+
+// export const createReport = async (request) => {
+//   const formData = new FormData();
+//   formData.append("name", request.name);
+//   formData.append("email", request.email);
+//   formData.append("text", request.text);
+
+//   const response = await fetch(`${import.meta.env.VITE_API_URL}/reports`, {
+//     method: "POST",
+//     body: formData,
+//   });
+
+//   const result = await response.json();
+//   if (!result?.success) {
+//     throw new Error(result?.message);
+//   }
+//   return result?.data;
+// };
+
+// export const updateReport = async (id, request) => {
+//   const token = localStorage.getItem("token");
+
+//   const formData = new FormData();
+//   formData.append("name", request.name);
+//   formData.append("email", request.email);
+//   formData.append("text", request.text);
+
+//   const response = await fetch(`${import.meta.env.VITE_API_URL}/reports/${id}`, {
+//     headers: {
+//       authorization: `Bearer ${token}`,
+//     },
+//     method: "PUT",
+//     body: formData,
+//   });
+
+//   const result = await response.json();
+//   if (!result?.success) {
+//     throw new Error(result?.message);
+//   }
+//   return result?.data;
+// };
+
+// export const deleteReport = async (id) => {
+//   const token = localStorage.getItem("token");
+
+//   const response = await fetch(`${import.meta.env.VITE_API_URL}/reports/${id}`, {
+//     headers: {
+//       authorization: `Bearer ${token}`,
+//     },
+//     method: "DELETE",
+//   });
+
+//   const result = await response.json();
+//   if (!result?.success) {
+//     throw new Error(result?.message);
+//   }
+//   return result?.data;
+// };

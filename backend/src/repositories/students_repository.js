@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 
 const getStudentsRepo = async (NIS, full_name) => {
   let query = {};
-
   let orQuery = [];
   if (NIS) {
     orQuery.push({
@@ -23,6 +22,9 @@ const getStudentsRepo = async (NIS, full_name) => {
       OR: orQuery,
     };
   }
+
+  // ✅ Debug query yang akan dijalankan
+  console.log("Final query:", JSON.stringify(query, null, 2));
 
   const searchedStudents = await prisma.students.findMany(query);
 

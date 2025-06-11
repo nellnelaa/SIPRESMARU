@@ -1,9 +1,10 @@
 import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 import React, { useState } from "react";
-import { ArrowLeft, Save, X } from "lucide-react";
+import { ArrowLeft, Users, Save, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { createStudent } from "../../../service/student";
+import ConfirmationDialog from "../../../components/CancelConfirmation";
 
 export const Route = createLazyFileRoute("/admin/student/create")({
   component: CreateStudent,
@@ -12,7 +13,6 @@ export const Route = createLazyFileRoute("/admin/student/create")({
 function CreateStudent() {
   const navigate = useNavigate();
 
-  // ✅ Hapus duplicate state - pakai formData saja
   const { mutate: create, isPending } = useMutation({
     mutationFn: (request) => createStudent(request),
     onSuccess: () => {
@@ -24,17 +24,15 @@ function CreateStudent() {
     },
   });
 
-  // ✅ Konsisten field names dengan API
   const [formData, setFormData] = useState({
-    full_name: "", // ✅ Sesuai API
-    NIS: "", // ✅ Sesuai API
-    class_name: "", // ✅ Sesuai API
-    graduation_year: new Date().getFullYear(), // ✅ Sesuai API
+    full_name: "", 
+    NIS: "", 
+    class_name: "", 
+    graduation_year: new Date().getFullYear(), 
   });
 
   const [errors, setErrors] = useState({});
 
-  // ✅ Update untuk enum backend
   const kelasOptions = [
     { value: "grade_10", label: "Kelas 10" },
     { value: "grade_11", label: "Kelas 11" },
@@ -62,7 +60,6 @@ function CreateStudent() {
     }
   };
 
-  // ✅ Fix validation field names
   const validateForm = () => {
     const newErrors = {};
 
@@ -87,7 +84,6 @@ function CreateStudent() {
     return newErrors;
   };
 
-  // ✅ Pakai React Query mutation
   const handleSubmit = async () => {
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
@@ -95,19 +91,17 @@ function CreateStudent() {
       return;
     }
 
-    // ✅ Pakai mutation yang sudah ada
     create(formData);
   };
 
   const handleCancel = () => {
-    if (
-      window.confirm(
-        "Apakah Anda yakin ingin membatalkan? Data yang sudah diisi akan hilang."
-      )
-    ) {
-      // ✅ Tetap pakai window.location.href yang sudah bekerja
-      window.location.href = "/admin/student";
-    }
+    ConfirmationDialog.showWithNavigation({
+      title: "Konfirmasi Batal",
+      message:
+        "Apakah Anda yakin ingin membatalkan? Data yang sudah diisi akan hilang.",
+      navigateTo: "/admin/student",
+      navigate,
+    });
   };
 
   return (
@@ -117,7 +111,7 @@ function CreateStudent() {
         <div className="mb-8">
           <div className="flex items-center mb-4">
             <button
-              onClick={() => window.history.back()}
+              onClick={() => navigate({ to: "/admin/student" })}
               className="flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
             >
               <ArrowLeft className="h-5 w-5 mr-2" />
@@ -136,7 +130,8 @@ function CreateStudent() {
         <div className="space-y-8">
           {/* Data Pribadi */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+              <Users className="h-5 w-5 mr-2 text-blue-600" />
               Data Pribadi
             </h2>
 
@@ -270,7 +265,9 @@ function CreateStudent() {
             <button
               type="button"
               onClick={handleSubmit}
-              disabled={isPending}
+              disabled={
+                isPending || (!formData.NIS.trim()|| !formData.full_name.trim())
+              }
               className="flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             >
               {isPending ? (

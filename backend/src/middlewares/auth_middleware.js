@@ -7,6 +7,39 @@ const {
 } = require("../utils/request");
 const userRepository = require("../repositories/users_repository");
 
+// exports.authorization =
+//   (...roles) =>
+//   async (req, res, next) => {
+//     const authorizationHeader = req.headers["authorization"];
+//     if (!authorizationHeader) {
+//       throw new Unauthorized("You need to login in advance!");
+//     }
+
+//     const splittedAuthHeader = authorizationHeader.split(" ");
+//     if (splittedAuthHeader.length <= 1) {
+//       throw new Unauthorized("Token is not valid!");
+//     }
+
+//     const token = splittedAuthHeader[1];
+
+//     const extractedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+//     const user = await userRepository.getUserById(extractedToken.user_id);
+
+//     if (!user) {
+//       throw new Unauthorized("User not found or token is invalid!");
+//     }
+  
+//     const accessValidation = roles.includes(user.role_id);
+//     if (!accessValidation) {
+//       throw new Forbidden("You can not access this resource!");
+//     }
+
+//     req.user = user;
+
+//     next();
+//   };
+
 exports.authorization =
   (...roles) =>
   async (req, res, next) => {
@@ -22,21 +55,28 @@ exports.authorization =
 
     const token = splittedAuthHeader[1];
 
-    const extractedToken = jwt.verify(token, process.env.JWT_SECRET);
+    let extractedToken;
+    try {
+      extractedToken = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      if (err.name === "TokenExpiredError") {
+        throw new Unauthorized("Token has expired. Please log in again.");
+      }
+      throw new Unauthorized("Token is not valid!");
+    }
 
     const user = await userRepository.getUserById(extractedToken.user_id);
 
     if (!user) {
       throw new Unauthorized("User not found or token is invalid!");
     }
-  
+
     const accessValidation = roles.includes(user.role_id);
     if (!accessValidation) {
       throw new Forbidden("You can not access this resource!");
     }
 
     req.user = user;
-
     next();
   };
 

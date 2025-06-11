@@ -17,32 +17,28 @@ import { Route as TentangKamiImport } from './routes/tentangKami'
 import { Route as PrestasiImport } from './routes/prestasi'
 import { Route as InformasiImport } from './routes/informasi'
 import { Route as AdminIndexImport } from './routes/admin/index'
+import { Route as AdminReportIndexImport } from './routes/admin/report/index'
 
 // Create Virtual Routes
 
 const LoginLazyImport = createFileRoute('/login')()
 const IndexLazyImport = createFileRoute('/')()
 const AdminTagIndexLazyImport = createFileRoute('/admin/tag/')()
-const AdminTagcopyIndexLazyImport = createFileRoute('/admin/tag copy/')()
 const AdminStudentIndexLazyImport = createFileRoute('/admin/student/')()
 const AdminAchievementIndexLazyImport = createFileRoute('/admin/achievement/')()
 const AdminTagCreateLazyImport = createFileRoute('/admin/tag/create')()
-const AdminTagIdLazyImport = createFileRoute('/admin/tag/$id')()
-const AdminTagcopyCreateLazyImport = createFileRoute('/admin/tag copy/create')()
-const AdminTagcopyIdLazyImport = createFileRoute('/admin/tag copy/$id')()
 const AdminStudentCreateLazyImport = createFileRoute('/admin/student/create')()
-const AdminStudentIdLazyImport = createFileRoute('/admin/student/$id')()
+const AdminReportCreateLazyImport = createFileRoute('/admin/report/create')()
+const AdminReportIdLazyImport = createFileRoute('/admin/report/$id')()
 const AdminAchievementCreateLazyImport = createFileRoute(
   '/admin/achievement/create',
 )()
 const AdminAchievementIdLazyImport = createFileRoute('/admin/achievement/$id')()
 const AdminTagEditIdLazyImport = createFileRoute('/admin/tag/edit/$id')()
-const AdminTagcopyEditIdLazyImport = createFileRoute(
-  '/admin/tag copy/edit/$id',
-)()
 const AdminStudentEditIdLazyImport = createFileRoute(
   '/admin/student/edit/$id',
 )()
+const AdminReportEditIdLazyImport = createFileRoute('/admin/report/edit/$id')()
 const AdminAchievementEditIdLazyImport = createFileRoute(
   '/admin/achievement/edit/$id',
 )()
@@ -93,14 +89,6 @@ const AdminTagIndexLazyRoute = AdminTagIndexLazyImport.update({
   import('./routes/admin/tag/index.lazy').then((d) => d.Route),
 )
 
-const AdminTagcopyIndexLazyRoute = AdminTagcopyIndexLazyImport.update({
-  id: '/admin/tag copy/',
-  path: '/admin/tag copy/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/admin/tag copy/index.lazy').then((d) => d.Route),
-)
-
 const AdminStudentIndexLazyRoute = AdminStudentIndexLazyImport.update({
   id: '/admin/student/',
   path: '/admin/student/',
@@ -117,34 +105,18 @@ const AdminAchievementIndexLazyRoute = AdminAchievementIndexLazyImport.update({
   import('./routes/admin/achievement/index.lazy').then((d) => d.Route),
 )
 
+const AdminReportIndexRoute = AdminReportIndexImport.update({
+  id: '/admin/report/',
+  path: '/admin/report/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AdminTagCreateLazyRoute = AdminTagCreateLazyImport.update({
   id: '/admin/tag/create',
   path: '/admin/tag/create',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/admin/tag/create.lazy').then((d) => d.Route),
-)
-
-const AdminTagIdLazyRoute = AdminTagIdLazyImport.update({
-  id: '/admin/tag/$id',
-  path: '/admin/tag/$id',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/admin/tag/$id.lazy').then((d) => d.Route))
-
-const AdminTagcopyCreateLazyRoute = AdminTagcopyCreateLazyImport.update({
-  id: '/admin/tag copy/create',
-  path: '/admin/tag copy/create',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/admin/tag copy/create.lazy').then((d) => d.Route),
-)
-
-const AdminTagcopyIdLazyRoute = AdminTagcopyIdLazyImport.update({
-  id: '/admin/tag copy/$id',
-  path: '/admin/tag copy/$id',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/admin/tag copy/$id.lazy').then((d) => d.Route),
 )
 
 const AdminStudentCreateLazyRoute = AdminStudentCreateLazyImport.update({
@@ -155,12 +127,20 @@ const AdminStudentCreateLazyRoute = AdminStudentCreateLazyImport.update({
   import('./routes/admin/student/create.lazy').then((d) => d.Route),
 )
 
-const AdminStudentIdLazyRoute = AdminStudentIdLazyImport.update({
-  id: '/admin/student/$id',
-  path: '/admin/student/$id',
+const AdminReportCreateLazyRoute = AdminReportCreateLazyImport.update({
+  id: '/admin/report/create',
+  path: '/admin/report/create',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import('./routes/admin/student/$id.lazy').then((d) => d.Route),
+  import('./routes/admin/report/create.lazy').then((d) => d.Route),
+)
+
+const AdminReportIdLazyRoute = AdminReportIdLazyImport.update({
+  id: '/admin/report/$id',
+  path: '/admin/report/$id',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/admin/report/$id.lazy').then((d) => d.Route),
 )
 
 const AdminAchievementCreateLazyRoute = AdminAchievementCreateLazyImport.update(
@@ -189,20 +169,20 @@ const AdminTagEditIdLazyRoute = AdminTagEditIdLazyImport.update({
   import('./routes/admin/tag/edit/$id.lazy').then((d) => d.Route),
 )
 
-const AdminTagcopyEditIdLazyRoute = AdminTagcopyEditIdLazyImport.update({
-  id: '/admin/tag copy/edit/$id',
-  path: '/admin/tag copy/edit/$id',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/admin/tag copy/edit/$id.lazy').then((d) => d.Route),
-)
-
 const AdminStudentEditIdLazyRoute = AdminStudentEditIdLazyImport.update({
   id: '/admin/student/edit/$id',
   path: '/admin/student/edit/$id',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/admin/student/edit/$id.lazy').then((d) => d.Route),
+)
+
+const AdminReportEditIdLazyRoute = AdminReportEditIdLazyImport.update({
+  id: '/admin/report/edit/$id',
+  path: '/admin/report/edit/$id',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/admin/report/edit/$id.lazy').then((d) => d.Route),
 )
 
 const AdminAchievementEditIdLazyRoute = AdminAchievementEditIdLazyImport.update(
@@ -275,11 +255,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAchievementCreateLazyImport
       parentRoute: typeof rootRoute
     }
-    '/admin/student/$id': {
-      id: '/admin/student/$id'
-      path: '/admin/student/$id'
-      fullPath: '/admin/student/$id'
-      preLoaderRoute: typeof AdminStudentIdLazyImport
+    '/admin/report/$id': {
+      id: '/admin/report/$id'
+      path: '/admin/report/$id'
+      fullPath: '/admin/report/$id'
+      preLoaderRoute: typeof AdminReportIdLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/report/create': {
+      id: '/admin/report/create'
+      path: '/admin/report/create'
+      fullPath: '/admin/report/create'
+      preLoaderRoute: typeof AdminReportCreateLazyImport
       parentRoute: typeof rootRoute
     }
     '/admin/student/create': {
@@ -289,32 +276,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminStudentCreateLazyImport
       parentRoute: typeof rootRoute
     }
-    '/admin/tag copy/$id': {
-      id: '/admin/tag copy/$id'
-      path: '/admin/tag copy/$id'
-      fullPath: '/admin/tag copy/$id'
-      preLoaderRoute: typeof AdminTagcopyIdLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/admin/tag copy/create': {
-      id: '/admin/tag copy/create'
-      path: '/admin/tag copy/create'
-      fullPath: '/admin/tag copy/create'
-      preLoaderRoute: typeof AdminTagcopyCreateLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/admin/tag/$id': {
-      id: '/admin/tag/$id'
-      path: '/admin/tag/$id'
-      fullPath: '/admin/tag/$id'
-      preLoaderRoute: typeof AdminTagIdLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/admin/tag/create': {
       id: '/admin/tag/create'
       path: '/admin/tag/create'
       fullPath: '/admin/tag/create'
       preLoaderRoute: typeof AdminTagCreateLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/report/': {
+      id: '/admin/report/'
+      path: '/admin/report'
+      fullPath: '/admin/report'
+      preLoaderRoute: typeof AdminReportIndexImport
       parentRoute: typeof rootRoute
     }
     '/admin/achievement/': {
@@ -331,13 +304,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminStudentIndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/admin/tag copy/': {
-      id: '/admin/tag copy/'
-      path: '/admin/tag copy'
-      fullPath: '/admin/tag copy'
-      preLoaderRoute: typeof AdminTagcopyIndexLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/admin/tag/': {
       id: '/admin/tag/'
       path: '/admin/tag'
@@ -352,18 +318,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAchievementEditIdLazyImport
       parentRoute: typeof rootRoute
     }
+    '/admin/report/edit/$id': {
+      id: '/admin/report/edit/$id'
+      path: '/admin/report/edit/$id'
+      fullPath: '/admin/report/edit/$id'
+      preLoaderRoute: typeof AdminReportEditIdLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/admin/student/edit/$id': {
       id: '/admin/student/edit/$id'
       path: '/admin/student/edit/$id'
       fullPath: '/admin/student/edit/$id'
       preLoaderRoute: typeof AdminStudentEditIdLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/admin/tag copy/edit/$id': {
-      id: '/admin/tag copy/edit/$id'
-      path: '/admin/tag copy/edit/$id'
-      fullPath: '/admin/tag copy/edit/$id'
-      preLoaderRoute: typeof AdminTagcopyEditIdLazyImport
       parentRoute: typeof rootRoute
     }
     '/admin/tag/edit/$id': {
@@ -387,19 +353,17 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminIndexRoute
   '/admin/achievement/$id': typeof AdminAchievementIdLazyRoute
   '/admin/achievement/create': typeof AdminAchievementCreateLazyRoute
-  '/admin/student/$id': typeof AdminStudentIdLazyRoute
+  '/admin/report/$id': typeof AdminReportIdLazyRoute
+  '/admin/report/create': typeof AdminReportCreateLazyRoute
   '/admin/student/create': typeof AdminStudentCreateLazyRoute
-  '/admin/tag copy/$id': typeof AdminTagcopyIdLazyRoute
-  '/admin/tag copy/create': typeof AdminTagcopyCreateLazyRoute
-  '/admin/tag/$id': typeof AdminTagIdLazyRoute
   '/admin/tag/create': typeof AdminTagCreateLazyRoute
+  '/admin/report': typeof AdminReportIndexRoute
   '/admin/achievement': typeof AdminAchievementIndexLazyRoute
   '/admin/student': typeof AdminStudentIndexLazyRoute
-  '/admin/tag copy': typeof AdminTagcopyIndexLazyRoute
   '/admin/tag': typeof AdminTagIndexLazyRoute
   '/admin/achievement/edit/$id': typeof AdminAchievementEditIdLazyRoute
+  '/admin/report/edit/$id': typeof AdminReportEditIdLazyRoute
   '/admin/student/edit/$id': typeof AdminStudentEditIdLazyRoute
-  '/admin/tag copy/edit/$id': typeof AdminTagcopyEditIdLazyRoute
   '/admin/tag/edit/$id': typeof AdminTagEditIdLazyRoute
 }
 
@@ -412,19 +376,17 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/admin/achievement/$id': typeof AdminAchievementIdLazyRoute
   '/admin/achievement/create': typeof AdminAchievementCreateLazyRoute
-  '/admin/student/$id': typeof AdminStudentIdLazyRoute
+  '/admin/report/$id': typeof AdminReportIdLazyRoute
+  '/admin/report/create': typeof AdminReportCreateLazyRoute
   '/admin/student/create': typeof AdminStudentCreateLazyRoute
-  '/admin/tag copy/$id': typeof AdminTagcopyIdLazyRoute
-  '/admin/tag copy/create': typeof AdminTagcopyCreateLazyRoute
-  '/admin/tag/$id': typeof AdminTagIdLazyRoute
   '/admin/tag/create': typeof AdminTagCreateLazyRoute
+  '/admin/report': typeof AdminReportIndexRoute
   '/admin/achievement': typeof AdminAchievementIndexLazyRoute
   '/admin/student': typeof AdminStudentIndexLazyRoute
-  '/admin/tag copy': typeof AdminTagcopyIndexLazyRoute
   '/admin/tag': typeof AdminTagIndexLazyRoute
   '/admin/achievement/edit/$id': typeof AdminAchievementEditIdLazyRoute
+  '/admin/report/edit/$id': typeof AdminReportEditIdLazyRoute
   '/admin/student/edit/$id': typeof AdminStudentEditIdLazyRoute
-  '/admin/tag copy/edit/$id': typeof AdminTagcopyEditIdLazyRoute
   '/admin/tag/edit/$id': typeof AdminTagEditIdLazyRoute
 }
 
@@ -438,19 +400,17 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/admin/achievement/$id': typeof AdminAchievementIdLazyRoute
   '/admin/achievement/create': typeof AdminAchievementCreateLazyRoute
-  '/admin/student/$id': typeof AdminStudentIdLazyRoute
+  '/admin/report/$id': typeof AdminReportIdLazyRoute
+  '/admin/report/create': typeof AdminReportCreateLazyRoute
   '/admin/student/create': typeof AdminStudentCreateLazyRoute
-  '/admin/tag copy/$id': typeof AdminTagcopyIdLazyRoute
-  '/admin/tag copy/create': typeof AdminTagcopyCreateLazyRoute
-  '/admin/tag/$id': typeof AdminTagIdLazyRoute
   '/admin/tag/create': typeof AdminTagCreateLazyRoute
+  '/admin/report/': typeof AdminReportIndexRoute
   '/admin/achievement/': typeof AdminAchievementIndexLazyRoute
   '/admin/student/': typeof AdminStudentIndexLazyRoute
-  '/admin/tag copy/': typeof AdminTagcopyIndexLazyRoute
   '/admin/tag/': typeof AdminTagIndexLazyRoute
   '/admin/achievement/edit/$id': typeof AdminAchievementEditIdLazyRoute
+  '/admin/report/edit/$id': typeof AdminReportEditIdLazyRoute
   '/admin/student/edit/$id': typeof AdminStudentEditIdLazyRoute
-  '/admin/tag copy/edit/$id': typeof AdminTagcopyEditIdLazyRoute
   '/admin/tag/edit/$id': typeof AdminTagEditIdLazyRoute
 }
 
@@ -465,19 +425,17 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/achievement/$id'
     | '/admin/achievement/create'
-    | '/admin/student/$id'
+    | '/admin/report/$id'
+    | '/admin/report/create'
     | '/admin/student/create'
-    | '/admin/tag copy/$id'
-    | '/admin/tag copy/create'
-    | '/admin/tag/$id'
     | '/admin/tag/create'
+    | '/admin/report'
     | '/admin/achievement'
     | '/admin/student'
-    | '/admin/tag copy'
     | '/admin/tag'
     | '/admin/achievement/edit/$id'
+    | '/admin/report/edit/$id'
     | '/admin/student/edit/$id'
-    | '/admin/tag copy/edit/$id'
     | '/admin/tag/edit/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -489,19 +447,17 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/achievement/$id'
     | '/admin/achievement/create'
-    | '/admin/student/$id'
+    | '/admin/report/$id'
+    | '/admin/report/create'
     | '/admin/student/create'
-    | '/admin/tag copy/$id'
-    | '/admin/tag copy/create'
-    | '/admin/tag/$id'
     | '/admin/tag/create'
+    | '/admin/report'
     | '/admin/achievement'
     | '/admin/student'
-    | '/admin/tag copy'
     | '/admin/tag'
     | '/admin/achievement/edit/$id'
+    | '/admin/report/edit/$id'
     | '/admin/student/edit/$id'
-    | '/admin/tag copy/edit/$id'
     | '/admin/tag/edit/$id'
   id:
     | '__root__'
@@ -513,19 +469,17 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/achievement/$id'
     | '/admin/achievement/create'
-    | '/admin/student/$id'
+    | '/admin/report/$id'
+    | '/admin/report/create'
     | '/admin/student/create'
-    | '/admin/tag copy/$id'
-    | '/admin/tag copy/create'
-    | '/admin/tag/$id'
     | '/admin/tag/create'
+    | '/admin/report/'
     | '/admin/achievement/'
     | '/admin/student/'
-    | '/admin/tag copy/'
     | '/admin/tag/'
     | '/admin/achievement/edit/$id'
+    | '/admin/report/edit/$id'
     | '/admin/student/edit/$id'
-    | '/admin/tag copy/edit/$id'
     | '/admin/tag/edit/$id'
   fileRoutesById: FileRoutesById
 }
@@ -539,19 +493,17 @@ export interface RootRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminAchievementIdLazyRoute: typeof AdminAchievementIdLazyRoute
   AdminAchievementCreateLazyRoute: typeof AdminAchievementCreateLazyRoute
-  AdminStudentIdLazyRoute: typeof AdminStudentIdLazyRoute
+  AdminReportIdLazyRoute: typeof AdminReportIdLazyRoute
+  AdminReportCreateLazyRoute: typeof AdminReportCreateLazyRoute
   AdminStudentCreateLazyRoute: typeof AdminStudentCreateLazyRoute
-  AdminTagcopyIdLazyRoute: typeof AdminTagcopyIdLazyRoute
-  AdminTagcopyCreateLazyRoute: typeof AdminTagcopyCreateLazyRoute
-  AdminTagIdLazyRoute: typeof AdminTagIdLazyRoute
   AdminTagCreateLazyRoute: typeof AdminTagCreateLazyRoute
+  AdminReportIndexRoute: typeof AdminReportIndexRoute
   AdminAchievementIndexLazyRoute: typeof AdminAchievementIndexLazyRoute
   AdminStudentIndexLazyRoute: typeof AdminStudentIndexLazyRoute
-  AdminTagcopyIndexLazyRoute: typeof AdminTagcopyIndexLazyRoute
   AdminTagIndexLazyRoute: typeof AdminTagIndexLazyRoute
   AdminAchievementEditIdLazyRoute: typeof AdminAchievementEditIdLazyRoute
+  AdminReportEditIdLazyRoute: typeof AdminReportEditIdLazyRoute
   AdminStudentEditIdLazyRoute: typeof AdminStudentEditIdLazyRoute
-  AdminTagcopyEditIdLazyRoute: typeof AdminTagcopyEditIdLazyRoute
   AdminTagEditIdLazyRoute: typeof AdminTagEditIdLazyRoute
 }
 
@@ -564,19 +516,17 @@ const rootRouteChildren: RootRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminAchievementIdLazyRoute: AdminAchievementIdLazyRoute,
   AdminAchievementCreateLazyRoute: AdminAchievementCreateLazyRoute,
-  AdminStudentIdLazyRoute: AdminStudentIdLazyRoute,
+  AdminReportIdLazyRoute: AdminReportIdLazyRoute,
+  AdminReportCreateLazyRoute: AdminReportCreateLazyRoute,
   AdminStudentCreateLazyRoute: AdminStudentCreateLazyRoute,
-  AdminTagcopyIdLazyRoute: AdminTagcopyIdLazyRoute,
-  AdminTagcopyCreateLazyRoute: AdminTagcopyCreateLazyRoute,
-  AdminTagIdLazyRoute: AdminTagIdLazyRoute,
   AdminTagCreateLazyRoute: AdminTagCreateLazyRoute,
+  AdminReportIndexRoute: AdminReportIndexRoute,
   AdminAchievementIndexLazyRoute: AdminAchievementIndexLazyRoute,
   AdminStudentIndexLazyRoute: AdminStudentIndexLazyRoute,
-  AdminTagcopyIndexLazyRoute: AdminTagcopyIndexLazyRoute,
   AdminTagIndexLazyRoute: AdminTagIndexLazyRoute,
   AdminAchievementEditIdLazyRoute: AdminAchievementEditIdLazyRoute,
+  AdminReportEditIdLazyRoute: AdminReportEditIdLazyRoute,
   AdminStudentEditIdLazyRoute: AdminStudentEditIdLazyRoute,
-  AdminTagcopyEditIdLazyRoute: AdminTagcopyEditIdLazyRoute,
   AdminTagEditIdLazyRoute: AdminTagEditIdLazyRoute,
 }
 
@@ -598,19 +548,17 @@ export const routeTree = rootRoute
         "/admin/",
         "/admin/achievement/$id",
         "/admin/achievement/create",
-        "/admin/student/$id",
+        "/admin/report/$id",
+        "/admin/report/create",
         "/admin/student/create",
-        "/admin/tag copy/$id",
-        "/admin/tag copy/create",
-        "/admin/tag/$id",
         "/admin/tag/create",
+        "/admin/report/",
         "/admin/achievement/",
         "/admin/student/",
-        "/admin/tag copy/",
         "/admin/tag/",
         "/admin/achievement/edit/$id",
+        "/admin/report/edit/$id",
         "/admin/student/edit/$id",
-        "/admin/tag copy/edit/$id",
         "/admin/tag/edit/$id"
       ]
     },
@@ -638,23 +586,20 @@ export const routeTree = rootRoute
     "/admin/achievement/create": {
       "filePath": "admin/achievement/create.lazy.jsx"
     },
-    "/admin/student/$id": {
-      "filePath": "admin/student/$id.lazy.jsx"
+    "/admin/report/$id": {
+      "filePath": "admin/report/$id.lazy.jsx"
+    },
+    "/admin/report/create": {
+      "filePath": "admin/report/create.lazy.jsx"
     },
     "/admin/student/create": {
       "filePath": "admin/student/create.lazy.jsx"
     },
-    "/admin/tag copy/$id": {
-      "filePath": "admin/tag copy/$id.lazy.jsx"
-    },
-    "/admin/tag copy/create": {
-      "filePath": "admin/tag copy/create.lazy.jsx"
-    },
-    "/admin/tag/$id": {
-      "filePath": "admin/tag/$id.lazy.jsx"
-    },
     "/admin/tag/create": {
       "filePath": "admin/tag/create.lazy.jsx"
+    },
+    "/admin/report/": {
+      "filePath": "admin/report/index.jsx"
     },
     "/admin/achievement/": {
       "filePath": "admin/achievement/index.lazy.jsx"
@@ -662,20 +607,17 @@ export const routeTree = rootRoute
     "/admin/student/": {
       "filePath": "admin/student/index.lazy.jsx"
     },
-    "/admin/tag copy/": {
-      "filePath": "admin/tag copy/index.lazy.jsx"
-    },
     "/admin/tag/": {
       "filePath": "admin/tag/index.lazy.jsx"
     },
     "/admin/achievement/edit/$id": {
       "filePath": "admin/achievement/edit/$id.lazy.jsx"
     },
+    "/admin/report/edit/$id": {
+      "filePath": "admin/report/edit/$id.lazy.jsx"
+    },
     "/admin/student/edit/$id": {
       "filePath": "admin/student/edit/$id.lazy.jsx"
-    },
-    "/admin/tag copy/edit/$id": {
-      "filePath": "admin/tag copy/edit/$id.lazy.jsx"
     },
     "/admin/tag/edit/$id": {
       "filePath": "admin/tag/edit/$id.lazy.jsx"

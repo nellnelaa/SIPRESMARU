@@ -43,7 +43,12 @@ const updateStudentService = async (id, data) => {
   if (!existingStudent) {
     throw new NotFoundError("Student is not found!");
   }
-  const studentWithSameNIS = await getStudentsRepo(data.NIS, Number(id));
+  const studentsWithSameNIS = await getStudentsRepo(data.NIS, null);
+
+  const studentWithSameNIS = studentsWithSameNIS.find(
+    (student) => student.id !== Number(id)
+  );
+
   if (studentWithSameNIS) {
     throw new BadRequestError("NIS sudah terdaftar oleh siswa lain");
   }

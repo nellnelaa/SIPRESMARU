@@ -4,6 +4,7 @@ import { ArrowLeft, Save, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getStudentById, updateStudent } from "../../../../service/student";
+import ConfirmationDialog from "../../../../components/CancelConfirmation";
 
 export const Route = createLazyFileRoute("/admin/student/edit/$id")({
   component: EditStudent,
@@ -43,7 +44,6 @@ function EditStudent() {
 
   const [errors, setErrors] = useState({});
 
-  // ✅ Populate form when data loaded
   useEffect(() => {
     if (student) {
       setFormData({
@@ -55,7 +55,6 @@ function EditStudent() {
     }
   }, [student]);
 
-  // ✅ Options
   const kelasOptions = [
     { value: "grade_10", label: "Kelas 10" },
     { value: "grade_11", label: "Kelas 11" },
@@ -118,16 +117,24 @@ function EditStudent() {
   };
 
   const handleCancel = () => {
-    if (
-      window.confirm(
-        "Apakah Anda yakin ingin membatalkan? Perubahan yang sudah diisi akan hilang."
-      )
-    ) {
-      window.location.href = "/admin/student";
-    }
+    ConfirmationDialog.showWithNavigation({
+      title: "Konfirmasi Batal",
+      message:
+        "Apakah Anda yakin ingin membatalkan? Data yang sudah diisi akan hilang.",
+      navigateTo: "/admin/student",
+      navigate,
+    });
   };
 
-  // ✅ Loading state
+  const isFormValid =
+    formData.full_name.trim() && formData.NIS.trim();
+  const hasChanges =
+    student &&
+    (formData.full_name !== student.full_name ||
+      formData.NIS !== student.NIS ||
+      formData.class_name !== student.class_name ||
+      formData.graduation_year !== student.graduation_year);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -139,39 +146,56 @@ function EditStudent() {
     );
   }
 
-  // ✅ Error state
   if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">Gagal memuat data siswa</p>
-          <button
-            onClick={() => window.history.back()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Kembali
-          </button>
+      return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <X className="h-8 w-8 text-red-600" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              Gagal Memuat Data
+            </h2>
+            <p className="text-red-600 mb-4">Gagal memuat data Siswa</p>
+            <div className="space-x-3">
+              <button
+                onClick={() => window.location.reload()}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                Coba Lagi
+              </button>
+              <button
+                onClick={() => navigate({ to: "/admin/student" })}
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+              >
+                Kembali
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
-  // ✅ Student not found
-  if (!student) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600 mb-4">Data siswa tidak ditemukan</p>
-          <button
-            onClick={() => window.history.back()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Kembali
-          </button>
+    if (!student) {
+      return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              Siswa Tidak Ditemukan
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Siswa dengan ID tersebut tidak ditemukan dalam sistem
+            </p>
+            <button
+              onClick={() => navigate({ to: "/admin/student" })}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Kembali ke Daftar Siswa
+            </button>
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -180,14 +204,14 @@ function EditStudent() {
         <div className="mb-8">
           <div className="flex items-center mb-4">
             <button
-              onClick={() => window.history.back()}
+              onClick={() => navigate({ to: "/admin/student" })}
               className="flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
             >
               <ArrowLeft className="h-5 w-5 mr-2" />
               Kembali
             </button>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900">
             Edit Data Siswa
           </h1>
           <p className="text-gray-600">
@@ -333,7 +357,7 @@ function EditStudent() {
             <button
               type="button"
               onClick={handleSubmit}
-              disabled={isPending}
+              disabled={isPending || !isFormValid || !hasChanges}
               className="flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             >
               {isPending ? (

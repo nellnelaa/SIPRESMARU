@@ -90,7 +90,6 @@ const getAchievementsRepo = async (
 ) => {
   const where = {};
 
-  // Filter: Nama siswa
   if (full_name) {
     where.students = {
       full_name: {
@@ -100,14 +99,12 @@ const getAchievementsRepo = async (
     };
   }
 
-  // Filter: Grade
   if (grade) {
     where.grade = {
-      equals: grade, // enum lebih baik pakai equals daripada contains
+      equals: grade,
     };
   }
 
-  // Filter: Tag
   if (tag) {
     where.tags = {
       some: {
@@ -121,7 +118,6 @@ const getAchievementsRepo = async (
     };
   }
 
-  // Filter: Title (judul prestasi)
   if (title) {
     where.title = {
       contains: title,
@@ -129,14 +125,12 @@ const getAchievementsRepo = async (
     };
   }
 
-  // Filter: Category type (Academic / NonAcademic)
   if (category_type) {
     where.category_type = {
       equals: category_type,
     };
   }
 
-  // Filter: Instansi penyelenggara
   if (organizer_name) {
     where.organizer_name = {
       contains: organizer_name,
@@ -167,6 +161,17 @@ const getAchievementByIdRepo = async (id) => {
   const achievement = await prisma.achievements.findFirst({
     where: {
       id: id,
+    },
+    include: {
+      students: true,
+      tags: {
+        include: {
+          tag_details: true,
+        },
+      },
+    },
+    orderBy: {
+      id: "asc",
     },
   });
   const serializedAchievements = JSONBigInt.stringify(achievement);

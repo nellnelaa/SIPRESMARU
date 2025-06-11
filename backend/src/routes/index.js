@@ -6,6 +6,7 @@ const achievementsRouter = require("./achievements_route");
 const categoriesRouter = require("./categories_route");
 const reportsRouter = require("./reports_route");
 const leaderboardsRouter = require("./leaderboards_route");
+const dashboardsRouter = require("./dashboards_route");
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use("/achievements", achievementsRouter);
 router.use("/categories", categoriesRouter);
 router.use("/reports", reportsRouter);
 router.use("/leaderboards", leaderboardsRouter);
+router.use("/dashboards", dashboardsRouter);
 
 module.exports = router;
