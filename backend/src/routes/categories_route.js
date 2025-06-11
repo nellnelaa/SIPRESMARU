@@ -13,7 +13,7 @@ const {
   createCategoryController,
   updateCategoryController,
   deleteCategoryController,
-} = require("../controllers/Categories_controller.js");
+} = require("../controllers/categories_controller.js");
 const { adminRole, userRole } = require("../constants/auth");
 
 const router = express.Router();
