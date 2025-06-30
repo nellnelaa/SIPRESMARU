@@ -92,7 +92,7 @@ function Index() {
         {/* Konten dua kolom */}
         <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 md:mt-5 gap-8 items-start">
           {/* Kiri: Foto dan nama */}
-          <div className="flex flex-col items-center md:items-start">
+          <div className="flex flex-col items-center md:items-center">
             <img
               src="/image/foto-kepsek.png"
               alt="Kepala Sekolah"
@@ -112,12 +112,12 @@ function Index() {
               Selamat datang di SIPRESMARU!
             </h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-              id bibendum orci. Morbi feugiat diam ac varius commodo. Vivamus
-              laoreet egestas posuere. Maecenas et vestibulum mi. Fusce at
-              lectus eget ipsum cursus dictum. Etiam quis nibh eros. Cras mollis
-              urna at accumsan iaculis. Aenean vel ante et velit blandit
-              maximus.
+              Saya menyambut baik hadirnya Sipresmaru (Sistem Rekap Prestasi
+              Siswa SMAN 1 Waru) sebagai langkah positif dalam mendokumentasikan
+              dan menampilkan prestasi siswa secara digital. Sistem ini
+              diharapkan dapat menjadi motivasi bagi seluruh peserta didik untuk
+              terus berprestasi, serta menjadi wadah apresiasi bagi setiap usaha
+              dan pencapaian yang diraih oleh siswa SMAN 1 Waru.
             </p>
             <button
               onClick={() => navigate({ to: "/tentangKami" })}
@@ -141,7 +141,6 @@ function Index() {
 
       {/* Prestasi Terbaru */}
       <div className="flex flex-col md:flex-row items-stretch w-full bg-[#eeeeee] relative">
-        {/* Blok Biru OSIS */}
         <div
           className="md:w-3/5 w-full px-4 md:px-20 bg-no-repeat bg-cover text-white p-6 md:p-10 z-10 relative"
           style={{
@@ -151,47 +150,6 @@ function Index() {
           <h2 className="text-lg md:text-xl font-bold mb-4">
             PRESTASI TERBARU
           </h2>
-
-          {/* <div className="space-y-4 text-xs md:text-sm font-medium mr-15 py-7">
-            <div>
-              <p
-                className="text-gray-200"
-                style={{ fontFamily: "Sofia Pro Light, sans-serif" }}
-              >
-              12 MAR 2025
-              </p>
-              <p>
-                Tim Futsal SMAN 1 Waru Juara 1 pada Kompetisi Futsal UPN Jawa
-                Timur “Footfest 2025”
-              </p>
-            </div>
-            <div>
-              <p
-                className="text-gray-200"
-                style={{ fontFamily: "Sofia Pro Light, sans-serif" }}
-              >
-                5 MAR 2025
-              </p>
-              <p>
-                Budi Setiawan dengan Puisi “Arah Mata” Memenangkan Ajang Cipta
-                Puisi
-              </p>
-            </div>
-            <div>
-              <p
-                className="text-gray-200"
-                style={{ fontFamily: "Sofia Pro Light, sans-serif" }}
-              >
-                1 MAR 2025
-              </p>
-              <p>
-                Naila Nur Adeva dan Muhammad Izzul Lasminingrum Meraih Medali
-                Perunggu pada Ajang Kompetisi Debat Nasional “EduFest: Argument
-                as The Ultimate Modern Weapon”
-              </p>
-            </div>
-          </div> */}
-
           <div className="space-y-4 text-xs md:text-sm font-medium mr-15 py-7">
             {achievements
               .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
@@ -253,19 +211,19 @@ function Index() {
             </p>
             {/* Foto dan Nama */}
             <div className="md:w-1/2 flex flex-col items-center md:items-start mt-6 md:mt-0 md:pl-40">
+{/*               
               <img
                 src={profile1}
                 alt="Muhammad Adeva"
                 className="w-70 h-70 object-cover rounded-xl mb-2"
               />
-              {/*
+               */}
                 <div className="text-pink-600 font-semibold text-lg">
                   Muhammad Adeva
                 </div>
                 <div className="text-xs text-gray-700">
                   Ketua OSIS SMAN 1 Waru 2023/2024
                 </div>
-            */}
             </div>
           </div>
 
@@ -280,17 +238,17 @@ function Index() {
             </p>
             {/* Foto dan Nama */}
             <div className="md:w-1/2 flex flex-col items-center md:items-end mt-6 md:mt-0 md:pr-50">
-              <img
+              {/* <img
                 src={profile2}
                 alt="Naila Jinan Gaisani"
                 className="w-70 h-70 object-cover rounded-xl mb-2"
-              />
-              {/* <div className="text-pink-600 font-semibold text-lg ">
+              /> */}
+              <div className="text-pink-600 font-semibold text-lg ">
                 Naila Jinan Gaisani
               </div>
               <div className="text-xs text-gray-700">
                 Lomba Tingkat Nasional POSI PROV 2023
-              </div> */}
+              </div>
             </div>
           </div>
 

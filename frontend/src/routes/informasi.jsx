@@ -80,7 +80,7 @@ function Informasi() {
               className="w-30 md:w-40 h-full rounded-md"
             />
             <div className="flex flex-col text-left items-start justify-center">
-              <p className="font-medium">Khairul Anam</p>
+              <p className="font-medium">Khairul Anwar</p>
               <p className="text-sm text-gray-500 mb-2">
                 Staf Kesiswaan SMAN 1 Waru
               </p>
@@ -103,36 +103,50 @@ function Informasi() {
           <p className="text-sm text-gray-500 mb-6">
             Bagaimana Prestasi Dinilai?
           </p>
+
           <div className="overflow-x-auto max-w-2xl mx-auto">
-            <div className="rounded-3xl border border-gray-300 shadow-lg overflow-hidden w-full max-w-4xl mx-auto">
+            <div className="rounded-3xl border border-gray-300 shadow-lg overflow-hidden w-full">
               <table className="w-full text-sm text-left">
                 <thead className="bg-white text-gray-500 border-b border-gray-300">
                   <tr>
-                    <th className="p-3">Kategori</th>
-                    <th className="p-3">Syarat (Subjektif)</th>
-                    <th className="p-3">Score</th>
+                    <th className="p-3 w-[10%]">Kategori</th>
+                    <th className="p-3 w-[75%]">Syarat (Subjektif)</th>
+                    <th className="p-3 w-[15%]">Score</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white">
+                  <tr className="bg-white align-top">
                     <td className="p-3">A</td>
-                    <td className="p-3">Text</td>
-                    <td className="p-3">100–150</td>
+                    <td className="p-3">
+                      Prestasi pada tingkat nasional/internasional,
+                      diselenggarakan oleh instansi pemerintah, meraih Juara 1,
+                      akademik
+                    </td>
+                    <td className="p-3">70-100</td>
                   </tr>
-                  <tr className="bg-white">
+                  <tr className="bg-white align-top">
                     <td className="p-3">B</td>
-                    <td className="p-3">Text</td>
-                    <td className="p-3">50–99</td>
+                    <td className="p-3">
+                      Prestasi pada tingkat provinsi/nasional, diselenggarakan
+                      oleh pemerintah atau lembaga terpercaya, meraih Juara 2/3
+                    </td>
+                    <td className="p-3">40-69</td>
                   </tr>
-                  <tr className="bg-white">
+                  <tr className="bg-white align-top">
                     <td className="p-3">C</td>
-                    <td className="p-3">Text</td>
-                    <td className="p-3">1–49</td>
+                    <td className="p-3">
+                      Prestasi pada tingkat kota/kabupaten, diselenggarakan oleh
+                      non-pemerintah, meraih Juara favorit/partisipasi aktif
+                    </td>
+                    <td className="p-3">10-39</td>
                   </tr>
-                  <tr className="bg-white">
+                  <tr className="bg-white align-top">
                     <td className="p-3">D</td>
-                    <td className="p-3">Text</td>
-                    <td className="p-3">0</td>
+                    <td className="p-3">
+                      Prestasi tidak dapat divalidasi atau tidak relevan dengan
+                      pengembangan akademik/non-akademik siswa
+                    </td>
+                    <td className="p-3">0-9</td>
                   </tr>
                 </tbody>
               </table>
